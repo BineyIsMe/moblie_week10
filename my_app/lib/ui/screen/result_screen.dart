@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:my_app/ui/widget/ResultAnswerCard.dart';
 import '../../models/quiz.dart';
 import '../../models/submission.dart';
 
@@ -20,13 +21,12 @@ class ResultScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final totalQuestions = quiz.answers.length;
     final score = quiz.getScore();
-
-    return Container(
-      color: Colors.blue,
-      child: Padding(
+    return Scaffold(
+      appBar: AppBar(title: const Text('Quiz Result')),
+      body: Container(
+        color: Colors.blue[100],
         padding: const EdgeInsets.all(16),
         child: Column(
-          
           children: [
             Text(
               'Score: $score / $totalQuestions',
@@ -38,59 +38,9 @@ class ResultScreen extends StatelessWidget {
                 itemCount: quiz.answers.length,
                 itemBuilder: (context, index) {
                   final answer = quiz.answers[index];
-                  return Card(
-                    margin: const EdgeInsets.only(bottom: 16),
-                    child: Padding(
-                      padding: const EdgeInsets.all(16),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            'Q${index + 1}: ${answer.question.title}',
-                            style: const TextStyle(
-                              fontSize: 20,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                          const SizedBox(height: 12),
-                          ...answer.question.choices.map((choice) {
-                            final isSelected = choice == answer.answerChoice;
-                            final isCorrect =
-                                choice == answer.question.goodChoice;
-                            Color? bgColor;
-      
-                            if (isSelected && isCorrect)
-                              bgColor = Colors.green[300];
-                            else if (isSelected && !isCorrect)
-                              bgColor = Colors.red[300];
-                            else
-                              bgColor = null;
-      
-                            return Container(
-                              margin: const EdgeInsets.only(bottom: 8),
-                              decoration: BoxDecoration(
-                                color: bgColor,
-                                borderRadius: BorderRadius.circular(8),
-                                border: Border.all(
-                                  color: isSelected
-                                      ? (isCorrect ? Colors.green : Colors.red)
-                                      : Colors.grey[300]!,
-                                  width: 2,
-                                ),
-                              ),
-                              padding: const EdgeInsets.symmetric(
-                                vertical: 12,
-                                horizontal: 16,
-                              ),
-                              child: Text(
-                                choice,
-                                style: const TextStyle(fontSize: 18),
-                              ),
-                            );
-                          }),
-                        ],
-                      ),
-                    ),
+                  return ResultAnswerCard(
+                    answer: answer,
+                    showCorrectIcon: true, // pass this to display tick
                   );
                 },
               ),
