@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:my_app/ui/widget/ResultAnswerCard.dart';
-
 import '../../models/submission.dart';
 import '../../models/quiz.dart';
-// make a widget folder for reusable widgets
+
 
 class HistoryScreen extends StatelessWidget {
   final Submission submission;
